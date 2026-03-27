@@ -1,6 +1,7 @@
 package com.airtribe.ridewise.model;
 
 import com.airtribe.ridewise.enums.RideStatus;
+import com.airtribe.ridewise.enums.VehicleType;
 
 public class Ride {
     private static long idGenerator = 0;
@@ -11,15 +12,17 @@ public class Ride {
     private Location destination;
     private double distance;
     private RideStatus status;
+    private VehicleType vehicleType;
 
     public Ride(Rider rider, Location source, Location destination,
-                double distance, RideStatus status) {
+                double distance, RideStatus status, VehicleType vehicleType) {
         this.id = ++idGenerator;
         this.rider = rider;
         this.source = source;
         this.destination = destination;
         this.distance = Location.calculateDistance(source, destination);
         this.status = RideStatus.REQUESTED;
+        this.vehicleType = vehicleType;
     }
 
     public long getId() {
@@ -78,5 +81,13 @@ public class Ride {
 
     public void setStatus(RideStatus status) {
         this.status = status;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
 }

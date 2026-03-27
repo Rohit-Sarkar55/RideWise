@@ -1,5 +1,7 @@
 package com.airtribe.ridewise.model;
 
+import com.airtribe.ridewise.enums.VehicleType;
+
 public class Driver {
 
     private static long idGenerator = 0;
@@ -8,15 +10,26 @@ public class Driver {
     private String name;
     private Location currentLocation;
     private boolean available;
+    private VehicleType vehicleType;
+
 
     public Driver() {
         this.id = ++idGenerator;
     }
 
-    public Driver(String name, Location currentLocation) {
+    public Driver(String name, Location currentLocation, VehicleType type) {
         this.id = ++idGenerator;
         this.name = name;
         this.currentLocation = currentLocation;
+        this.vehicleType = type;
+    }
+
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public void setVehicleType(VehicleType vehicleType) {
+        this.vehicleType = vehicleType;
     }
 
     public long getId() {
