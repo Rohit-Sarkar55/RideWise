@@ -1,5 +1,6 @@
 package com.airtribe.ridewise.model;
 
+import com.airtribe.ridewise.enums.LocationEnum;
 import com.airtribe.ridewise.enums.VehicleType;
 
 public class Driver {
@@ -8,20 +9,23 @@ public class Driver {
 
     private long id;
     private String name;
-    private Location currentLocation;
+    private LocationEnum currentLocation;
     private boolean available;
     private VehicleType vehicleType;
+    private int ridesCompletedToday;
 
 
     public Driver() {
         this.id = ++idGenerator;
     }
 
-    public Driver(String name, Location currentLocation, VehicleType type) {
+    public Driver(String name, LocationEnum currentLocation, VehicleType type) {
         this.id = ++idGenerator;
         this.name = name;
         this.currentLocation = currentLocation;
         this.vehicleType = type;
+        this.ridesCompletedToday = 0;
+        this.available = true;
     }
 
     public VehicleType getVehicleType() {
@@ -48,11 +52,11 @@ public class Driver {
         this.name = name;
     }
 
-    public Location getCurrentLocation() {
+    public LocationEnum getCurrentLocation() {
         return currentLocation;
     }
 
-    public void setCurrentLocation(Location currentLocation) {
+    public void setCurrentLocation(LocationEnum currentLocation) {
         this.currentLocation = currentLocation;
     }
 
@@ -62,5 +66,16 @@ public class Driver {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public int getRidesCompletedToday() {
+        return ridesCompletedToday;
+    }
+
+    public void setRidesCompletedToday(int ridesCompletedToday) {
+        this.ridesCompletedToday = ridesCompletedToday;
+    }
+    public void incrementCompletedRides() {
+        this.ridesCompletedToday++;
     }
 }

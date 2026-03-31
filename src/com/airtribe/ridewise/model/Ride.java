@@ -1,26 +1,28 @@
 package com.airtribe.ridewise.model;
 
+import com.airtribe.ridewise.enums.LocationEnum;
 import com.airtribe.ridewise.enums.RideStatus;
 import com.airtribe.ridewise.enums.VehicleType;
+import com.airtribe.ridewise.util.CommonHelper;
 
 public class Ride {
     private static long idGenerator = 0;
     private long id;
     private Rider rider;
     private Driver driver;
-    private Location source;
-    private Location destination;
+    private LocationEnum source;
+    private LocationEnum destination;
     private double distance;
     private RideStatus status;
     private VehicleType vehicleType;
 
-    public Ride(Rider rider, Location source, Location destination,
-                double distance, RideStatus status, VehicleType vehicleType) {
+    public Ride(Rider rider, LocationEnum source, LocationEnum destination,
+                  VehicleType vehicleType) {
         this.id = ++idGenerator;
         this.rider = rider;
         this.source = source;
         this.destination = destination;
-        this.distance = Location.calculateDistance(source, destination);
+        this.distance = CommonHelper.calculateDistance(source, destination);
         this.status = RideStatus.REQUESTED;
         this.vehicleType = vehicleType;
     }
@@ -46,24 +48,26 @@ public class Ride {
     }
 
     public void setDriver(Driver driver) {
-        this.driver = driver;
-        this.status = RideStatus.ASSIGNED;
-        this.driver.setAvailable(false);
+        if(null != driver) {
+            this.driver = driver;
+            this.status = RideStatus.ASSIGNED;
+            this.driver.setAvailable(false);
+        }
     }
 
-    public Location getSource() {
+    public LocationEnum getSource() {
         return source;
     }
 
-    public void setSource(Location source) {
+    public void setSource(LocationEnum source) {
         this.source = source;
     }
 
-    public Location getDestination() {
+    public LocationEnum getDestination() {
         return destination;
     }
 
-    public void setDestination(Location destination) {
+    public void setDestination(LocationEnum destination) {
         this.destination = destination;
     }
 
