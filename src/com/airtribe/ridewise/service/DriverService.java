@@ -24,7 +24,7 @@ public class DriverService {
                 .filter(driver -> driver.getVehicleType().equals(vehicleType))
                 .filter(Driver::isAvailable).toList();
     }
-    
+
     public List<Driver> getAllAvailableDrivers(){
         return allDrivers.stream()
                 .filter(Driver::isAvailable).toList();

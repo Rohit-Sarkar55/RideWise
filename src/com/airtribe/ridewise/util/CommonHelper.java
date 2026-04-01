@@ -1,6 +1,7 @@
 package com.airtribe.ridewise.util;
 
 import com.airtribe.ridewise.enums.LocationEnum;
+import com.airtribe.ridewise.enums.VehicleType;
 
 public class CommonHelper {
 
@@ -13,5 +14,16 @@ public class CommonHelper {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double earthRadius = 6371; // Radius of the Earth in kilometers
         return earthRadius * c;
+    }
+
+    public static double vehicleSpecificRate(double distance, VehicleType vehicleType){
+        switch (vehicleType) {
+            case BIKE:
+                return distance * 8.0;
+            case AUTO:
+                return distance * 15.0;
+            default:
+                return distance * 20.0;
+        }
     }
 }

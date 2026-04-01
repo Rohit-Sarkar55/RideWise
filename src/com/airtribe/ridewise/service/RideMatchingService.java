@@ -59,12 +59,16 @@ public class RideMatchingService {
         ride.setDriver(driver);
     }
 
-    public double calculateFare(double distance) {
-        return fareCalculationStrategy.calculateFare(distance);
+    public double calculateFare(double distance, VehicleType vehicleType) {
+        return fareCalculationStrategy.calculateFare(distance, vehicleType);
     }
 
-    public double calculateFare(double distance , FareCalculationStrategy fareCalculationStrategy){
-        return fareCalculationStrategy.calculateFare(distance);
+    public double calculateFare(Ride ride) {
+        return fareCalculationStrategy.calculateFare(ride.getDistance(), ride.getVehicleType());
+    }
+
+    public double calculateFare(double distance ,VehicleType vehicleType, FareCalculationStrategy fareCalculationStrategy){
+        return fareCalculationStrategy.calculateFare(distance, vehicleType);
     }
 
     public void findAndAssignDriver(Ride ride){
@@ -82,7 +86,7 @@ public class RideMatchingService {
         ride.setCompleted(true);
 
         // Calculate the fare
-        double fare = fareCalculationStrategy.calculateFare(ride.getDistance());
+        double fare = fareCalculationStrategy.calculateFare(ride.getDistance(), ride.getVehicleType());
 
         // Generate a receipt (assuming FareReceipt exists)
         FareReceipt receipt = new FareReceipt(ride.getId(), fare);

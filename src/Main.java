@@ -10,13 +10,12 @@ import com.airtribe.ridewise.strategy.NearestDriverStrategy;
 import com.airtribe.ridewise.strategy.PeakHourStrategy;
 import com.airtribe.ridewise.util.CommonHelper;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
         // Create a DriverService instance
-        DriverService driverService = new DriverService() {};
+        DriverService driverService = new DriverService();
          
         driverService.addDriver(new Driver("Rohit", LocationEnum.ELECTRONIC_CITY, VehicleType.AUTO));
         driverService.addDriver(new Driver("Rahul", LocationEnum.KORAMANGALA, VehicleType.AUTO));
@@ -48,6 +47,6 @@ public class Main {
                 CommonHelper.calculateDistance(rider.getCurrentLocation(), ride.getDriver().getCurrentLocation()) +
                 "Km \ndestination dist: " + ride.getDistance() + " KM");
 
-        System.out.println("Fare: " + rideMatchingService.calculateFare(ride.getDistance(), defaultFareStrategy));
+        System.out.println("Fare: " + rideMatchingService.calculateFare(ride));
     }
 }

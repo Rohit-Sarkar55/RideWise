@@ -5,7 +5,6 @@ import com.airtribe.ridewise.model.Rider;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class RiderService {
     protected List<Rider> allRiders = new ArrayList<>();
