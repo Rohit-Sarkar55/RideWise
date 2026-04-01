@@ -18,11 +18,21 @@ public class Ride {
     private boolean isCompleted;
     private FareReceipt fareReceipt;
 
-    public Ride(Rider rider, LocationEnum source, LocationEnum destination,
-                  VehicleType vehicleType) {
+    public Ride(Rider rider, LocationEnum destination) {
         this.id = ++idGenerator;
         this.rider = rider;
-        this.source = source;
+        this.source = rider.getCurrentLocation();
+        this.destination = destination;
+        this.distance = CommonHelper.calculateDistance(source, destination);
+        this.status = RideStatus.REQUESTED;
+        this.isCompleted = false;
+    }
+
+    public Ride(Rider rider, LocationEnum destination,
+                VehicleType vehicleType) {
+        this.id = ++idGenerator;
+        this.rider = rider;
+        this.source = rider.getCurrentLocation();
         this.destination = destination;
         this.distance = CommonHelper.calculateDistance(source, destination);
         this.status = RideStatus.REQUESTED;
@@ -114,5 +124,21 @@ public class Ride {
 
     public void setFareReceipt(FareReceipt fareReceipt) {
         this.fareReceipt = fareReceipt;
+    }
+
+    @Override
+    public String toString() {
+        return "Ride{" +
+                "id=" + id +
+                ", rider=" + rider +
+                ", driver=" + driver +
+                ", source=" + source +
+                ", destination=" + destination +
+                ", distance=" + distance +
+                ", status=" + status +
+                ", vehicleType=" + vehicleType +
+                ", isCompleted=" + isCompleted +
+                ", fareReceipt=" + fareReceipt +
+                '}';
     }
 }

@@ -38,4 +38,13 @@ public class Rider {
     public void setCurrentLocation(LocationEnum currentLocation) {
         this.currentLocation = currentLocation;
     }
+
+    @Override
+    public String toString() {
+        return "Rider{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", currentLocation=" + currentLocation +
+                '}';
+    }
 }

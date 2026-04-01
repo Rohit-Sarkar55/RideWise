@@ -75,7 +75,16 @@ public class Driver {
     public void setRidesCompletedToday(int ridesCompletedToday) {
         this.ridesCompletedToday = ridesCompletedToday;
     }
-    public void incrementCompletedRides() {
-        this.ridesCompletedToday++;
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", currentLocation=" + currentLocation +
+
+                ", vehicleType=" + vehicleType +
+                ", ridesCompletedToday=" + ridesCompletedToday +
+                '}';
     }
 }

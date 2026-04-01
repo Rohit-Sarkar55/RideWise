@@ -9,12 +9,12 @@ import java.util.List;
 public class RiderService {
     protected List<Rider> allRiders = new ArrayList<>();
 
-    public void addDriver(Rider rider){
+    public void addRider(Rider rider){
         this.allRiders.add(rider);
     }
 
 
-    public List<Rider> getAllDrivers() {
+    public List<Rider> getAllRiders() {
         return this.allRiders;
     }
 

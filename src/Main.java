@@ -1,13 +1,17 @@
+import java.util.Scanner;
+
 import com.airtribe.ridewise.enums.LocationEnum;
 import com.airtribe.ridewise.enums.VehicleType;
 import com.airtribe.ridewise.model.Driver;
-import com.airtribe.ridewise.model.Ride;
 import com.airtribe.ridewise.model.Rider;
 import com.airtribe.ridewise.service.DriverService;
 import com.airtribe.ridewise.service.RideMatchingService;
+import com.airtribe.ridewise.service.RiderService;
+import com.airtribe.ridewise.strategy.DefaultFareStrategy;
 import com.airtribe.ridewise.strategy.NearestDriverStrategy;
-import com.airtribe.ridewise.strategy.PeakHourStrategy;
-import com.airtribe.ridewise.util.CommonHelper;
+import com.airtribe.ridewise.ui.DriverMenu;
+import com.airtribe.ridewise.ui.RideMenu;
+import com.airtribe.ridewise.ui.RiderMenu;
 
 
 
@@ -15,36 +19,53 @@ public class Main {
     public static void main(String[] args) {
         // Create a DriverService instance
         DriverService driverService = new DriverService();
-         
-        driverService.addDriver(new Driver("Rohit", LocationEnum.ELECTRONIC_CITY, VehicleType.AUTO));
+        RiderService riderService = new RiderService();
+
+        driverService.addDriver(new Driver("Rohit", LocationEnum.ELECTRONIC_CITY, VehicleType.BIKE));
         driverService.addDriver(new Driver("Rahul", LocationEnum.KORAMANGALA, VehicleType.AUTO));
-        driverService.addDriver(new Driver("Sam", LocationEnum.WHITEFIELD, VehicleType.AUTO));
-            
-        
+        driverService.addDriver(new Driver("Sam", LocationEnum.WHITEFIELD, VehicleType.CAR));
+        riderService.addRider(new Rider("Virat", LocationEnum.MG_ROAD));
 
-        // Create a rider
-        Rider rider = new Rider("Virat", LocationEnum.MG_ROAD);
+        Scanner scanner = new Scanner(System.in);
+        RiderMenu riderMenu = new RiderMenu(riderService);
+        DriverMenu driverMenu = new DriverMenu(driverService);
+        RideMatchingService rideMatchingService = new RideMatchingService(new NearestDriverStrategy(), new DefaultFareStrategy(), driverService);
+        RideMenu rideMenu = new RideMenu(rideMatchingService,riderService);
 
-        // Use NearestDriverStrategy
-        NearestDriverStrategy nearestDriverStrategy = new NearestDriverStrategy();
-        PeakHourStrategy peakHourStrategy = new PeakHourStrategy();
+        while (true) {
+            System.out.println("\n--- RideWise Service ---");
+            System.out.println("1. Rider Menu");
+            System.out.println("2. Driver Menu");
+            System.out.println("3. Ride Menu");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
 
-        // Pass DriverService to RideMatchingService
-        RideMatchingService rideMatchingService = new RideMatchingService(nearestDriverStrategy, peakHourStrategy, driverService);
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
-        // Create a ride
-        Ride ride = new Ride(rider, rider.getCurrentLocation(), LocationEnum.INDIRANAGAR, VehicleType.AUTO);
+            switch (choice) {
+                case 1:
+                    riderMenu.displayMenu();
+                    break;
 
-        // Find and assign driver
-        rideMatchingService.findAndAssignDriver(ride);
+                case 2:
+                    driverMenu.displayMenu();
+                    break;
 
-        // Complete the ride
-        rideMatchingService.completeRide(ride);
+                case 3:
+                    rideMenu.displayMenu();
+                    break;
 
-        System.out.println("Nearest Driver: " + ride.getDriver().getName() + " at dist: " +
-                CommonHelper.calculateDistance(rider.getCurrentLocation(), ride.getDriver().getCurrentLocation()) +
-                "Km \ndestination dist: " + ride.getDistance() + " KM");
+                case 4:
+                    System.out.println("Exiting RideWise Service. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
 
-        System.out.println("Fare: " + rideMatchingService.calculateFare(ride));
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+
     }
+
 }
