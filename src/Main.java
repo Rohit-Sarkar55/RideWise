@@ -4,8 +4,9 @@ import com.airtribe.ridewise.model.Driver;
 import com.airtribe.ridewise.model.Ride;
 import com.airtribe.ridewise.model.Rider;
 import com.airtribe.ridewise.service.RideMatchingService;
-import com.airtribe.ridewise.strategy.LeastActiveDriverStrategy;
+import com.airtribe.ridewise.strategy.DefaultFareStrategy;
 import com.airtribe.ridewise.strategy.NearestDriverStrategy;
+import com.airtribe.ridewise.strategy.PeakHourStrategy;
 import com.airtribe.ridewise.util.CommonHelper;
 
 import java.util.ArrayList;
@@ -22,13 +23,18 @@ public class Main {
         Rider rider = new Rider("Virat", LocationEnum.MG_ROAD);
 
         // Use NearestDriverStrategy
-        RideMatchingService rideMatchingService = new RideMatchingService(new NearestDriverStrategy());
+        NearestDriverStrategy nearestDriverStrategy = new NearestDriverStrategy();
+        PeakHourStrategy peakHourStrategy = new PeakHourStrategy();
+        DefaultFareStrategy defaultFareStrategy = new DefaultFareStrategy();
+        RideMatchingService rideMatchingService = new RideMatchingService(nearestDriverStrategy, peakHourStrategy);
         Ride ride = new Ride(rider, rider.getCurrentLocation(), LocationEnum.INDIRANAGAR,  VehicleType.AUTO);
-        Driver nearestDriver = rideMatchingService.findDriver(rider, drivers, ride.getVehicleType());
+        rideMatchingService.findAndAssignDriver(ride,drivers);
 
-        ride.setDriver(nearestDriver);
 
-        System.out.println("Nearest Driver: " + ride.getDriver().getName()+" at dist: "+ CommonHelper.calculateDistance(rider.getCurrentLocation(), nearestDriver.getCurrentLocation()) + "Km \ndestination dist: "+ride.getDistance() + " KM");
+        System.out.println("Nearest Driver: " + ride.getDriver().getName()+" at dist: "+ CommonHelper.calculateDistance(rider.getCurrentLocation(),
+                ride.getDriver().getCurrentLocation()) + "Km \ndestination dist: "+ride.getDistance() + " KM");
+
+        System.out.println("Fare: "+ rideMatchingService.calculateFare(ride.getDistance(),defaultFareStrategy));
 
 
         // Use LeastActiveDriverStrategy
