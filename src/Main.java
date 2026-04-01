@@ -5,7 +5,6 @@ import com.airtribe.ridewise.model.Ride;
 import com.airtribe.ridewise.model.Rider;
 import com.airtribe.ridewise.service.DriverService;
 import com.airtribe.ridewise.service.RideMatchingService;
-import com.airtribe.ridewise.strategy.DefaultFareStrategy;
 import com.airtribe.ridewise.strategy.NearestDriverStrategy;
 import com.airtribe.ridewise.strategy.PeakHourStrategy;
 import com.airtribe.ridewise.util.CommonHelper;
@@ -29,7 +28,6 @@ public class Main {
         // Use NearestDriverStrategy
         NearestDriverStrategy nearestDriverStrategy = new NearestDriverStrategy();
         PeakHourStrategy peakHourStrategy = new PeakHourStrategy();
-        DefaultFareStrategy defaultFareStrategy = new DefaultFareStrategy();
 
         // Pass DriverService to RideMatchingService
         RideMatchingService rideMatchingService = new RideMatchingService(nearestDriverStrategy, peakHourStrategy, driverService);
