@@ -3,6 +3,7 @@ import com.airtribe.ridewise.enums.VehicleType;
 import com.airtribe.ridewise.model.Driver;
 import com.airtribe.ridewise.model.Ride;
 import com.airtribe.ridewise.model.Rider;
+import com.airtribe.ridewise.service.DriverService;
 import com.airtribe.ridewise.service.RideMatchingService;
 import com.airtribe.ridewise.strategy.DefaultFareStrategy;
 import com.airtribe.ridewise.strategy.NearestDriverStrategy;
@@ -14,10 +15,14 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        List<Driver> drivers = new ArrayList<>();
-        drivers.add(new Driver("Rohit", LocationEnum.ELECTRONIC_CITY, VehicleType.AUTO));
-        drivers.add(new Driver("Rahul", LocationEnum.KORAMANGALA, VehicleType.AUTO));
-        drivers.add(new Driver("Sam", LocationEnum.WHITEFIELD, VehicleType.AUTO));
+        // Create a DriverService instance
+        DriverService driverService = new DriverService() {};
+         
+        driverService.addDriver(new Driver("Rohit", LocationEnum.ELECTRONIC_CITY, VehicleType.AUTO));
+        driverService.addDriver(new Driver("Rahul", LocationEnum.KORAMANGALA, VehicleType.AUTO));
+        driverService.addDriver(new Driver("Sam", LocationEnum.WHITEFIELD, VehicleType.AUTO));
+            
+        
 
         // Create a rider
         Rider rider = new Rider("Virat", LocationEnum.MG_ROAD);
@@ -26,18 +31,23 @@ public class Main {
         NearestDriverStrategy nearestDriverStrategy = new NearestDriverStrategy();
         PeakHourStrategy peakHourStrategy = new PeakHourStrategy();
         DefaultFareStrategy defaultFareStrategy = new DefaultFareStrategy();
-        RideMatchingService rideMatchingService = new RideMatchingService(nearestDriverStrategy, peakHourStrategy);
-        Ride ride = new Ride(rider, rider.getCurrentLocation(), LocationEnum.INDIRANAGAR,  VehicleType.AUTO);
-        rideMatchingService.findAndAssignDriver(ride,drivers);
 
+        // Pass DriverService to RideMatchingService
+        RideMatchingService rideMatchingService = new RideMatchingService(nearestDriverStrategy, peakHourStrategy, driverService);
 
-        System.out.println("Nearest Driver: " + ride.getDriver().getName()+" at dist: "+ CommonHelper.calculateDistance(rider.getCurrentLocation(),
-                ride.getDriver().getCurrentLocation()) + "Km \ndestination dist: "+ride.getDistance() + " KM");
+        // Create a ride
+        Ride ride = new Ride(rider, rider.getCurrentLocation(), LocationEnum.INDIRANAGAR, VehicleType.AUTO);
 
-        System.out.println("Fare: "+ rideMatchingService.calculateFare(ride.getDistance(),defaultFareStrategy));
+        // Find and assign driver
+        rideMatchingService.findAndAssignDriver(ride);
 
+        // Complete the ride
+        rideMatchingService.completeRide(ride);
 
-        // Use LeastActiveDriverStrategy
+        System.out.println("Nearest Driver: " + ride.getDriver().getName() + " at dist: " +
+                CommonHelper.calculateDistance(rider.getCurrentLocation(), ride.getDriver().getCurrentLocation()) +
+                "Km \ndestination dist: " + ride.getDistance() + " KM");
 
+        System.out.println("Fare: " + rideMatchingService.calculateFare(ride.getDistance(), defaultFareStrategy));
     }
 }

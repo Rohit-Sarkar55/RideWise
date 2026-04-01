@@ -15,6 +15,8 @@ public class Ride {
     private double distance;
     private RideStatus status;
     private VehicleType vehicleType;
+    private boolean isCompleted;
+    private FareReceipt fareReceipt;
 
     public Ride(Rider rider, LocationEnum source, LocationEnum destination,
                   VehicleType vehicleType) {
@@ -25,7 +27,10 @@ public class Ride {
         this.distance = CommonHelper.calculateDistance(source, destination);
         this.status = RideStatus.REQUESTED;
         this.vehicleType = vehicleType;
+        this.isCompleted = false;
     }
+
+
 
     public long getId() {
         return id;
@@ -93,5 +98,21 @@ public class Ride {
 
     public void setVehicleType(VehicleType vehicleType) {
         this.vehicleType = vehicleType;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
+
+    public FareReceipt getFareReceipt() {
+        return fareReceipt;
+    }
+
+    public void setFareReceipt(FareReceipt fareReceipt) {
+        this.fareReceipt = fareReceipt;
     }
 }

@@ -2,6 +2,7 @@ package com.airtribe.ridewise.service;
 
 import com.airtribe.ridewise.enums.VehicleType;
 import com.airtribe.ridewise.model.Driver;
+import com.airtribe.ridewise.model.FareReceipt;
 import com.airtribe.ridewise.model.Ride;
 import com.airtribe.ridewise.model.Rider;
 import com.airtribe.ridewise.strategy.DefaultFareStrategy;
@@ -14,10 +15,20 @@ import java.util.List;
 public class RideMatchingService {
     private RideMatchingStrategy rideMatchingStrategy;
     private FareCalculationStrategy fareCalculationStrategy;
+    private DriverService driverService;
 
-    public RideMatchingService(RideMatchingStrategy rideMatchingStrategy, FareCalculationStrategy fareCalculationStrategy) {
+    public DriverService getDriverService() {
+        return driverService;
+    }
+
+    public void setDriverService(DriverService driverService) {
+        this.driverService = driverService;
+    }
+
+    public RideMatchingService(RideMatchingStrategy rideMatchingStrategy, FareCalculationStrategy fareCalculationStrategy, DriverService driverService) {
         this.rideMatchingStrategy = rideMatchingStrategy;
         this.fareCalculationStrategy = fareCalculationStrategy;
+        this.driverService = driverService;
     }
     public RideMatchingService(){
         this.rideMatchingStrategy = new NearestDriverStrategy();
@@ -25,17 +36,13 @@ public class RideMatchingService {
     }
 
 
-    public Driver findDriver(Rider rider, List<Driver> availableDrivers, VehicleType vehicleType) {
-        List<Driver> availableMatchedDrivers = availableDrivers.stream()
-                .filter(driver -> driver.getVehicleType().equals(vehicleType))
-                .filter(Driver::isAvailable).toList();
+    public Driver findDriver(Rider rider,VehicleType vehicleType) {
+        List<Driver> availableMatchedDrivers = driverService.getAllAvailableDriversBasedOnType(vehicleType);
         return rideMatchingStrategy.matchDriver(rider, availableMatchedDrivers, vehicleType);
     }
 
     public Driver findDriver(Rider rider, List<Driver> availableDrivers,RideMatchingStrategy rideMatchingStrategy, VehicleType vehicleType) {
-        List<Driver> availableMatchedDrivers = availableDrivers.stream()
-                .filter(driver -> driver.getVehicleType().equals(vehicleType))
-                .filter(Driver::isAvailable).toList();
+        List<Driver> availableMatchedDrivers = driverService.getAllAvailableDriversBasedOnType(vehicleType);
         return rideMatchingStrategy.matchDriver(rider, availableMatchedDrivers, vehicleType);
     }
 
@@ -60,8 +67,8 @@ public class RideMatchingService {
         return fareCalculationStrategy.calculateFare(distance);
     }
 
-    public void findAndAssignDriver(Ride ride, List<Driver> availableDrivers){
-        Driver driver = findDriver(ride.getRider(), availableDrivers, ride.getVehicleType());
+    public void findAndAssignDriver(Ride ride){
+        Driver driver = findDriver(ride.getRider(), ride.getVehicleType());
         assignDriver(ride, driver);
     }
 
@@ -69,4 +76,24 @@ public class RideMatchingService {
         Driver driver = findDriver(ride.getRider(), availableDrivers, rideMatchingStrategy,ride.getVehicleType());
         assignDriver(ride, driver);
     }
+
+    public void completeRide(Ride ride) {
+    // Mark the ride as completed
+        ride.setCompleted(true);
+
+        // Calculate the fare
+        double fare = fareCalculationStrategy.calculateFare(ride.getDistance());
+
+        // Generate a receipt (assuming FareReceipt exists)
+        FareReceipt receipt = new FareReceipt(ride.getId(), fare);
+        ride.setFareReceipt(receipt);
+
+    // Update the driver's availability
+        Driver driver = ride.getDriver();
+        if (driver != null) {
+            driver.setAvailable(true);
+            driver.setRidesCompletedToday(driver.getRidesCompletedToday() + 1);
+        }
+    }
+
 }

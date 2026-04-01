@@ -1,17 +1,16 @@
 package com.airtribe.ridewise.model;
 
-
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class FareReceipt {
     private long rideId;
     private double amount;
-    private Timestamp generatedAt;
+    private LocalDateTime generatedAt;
 
-    public FareReceipt(long rideId, double amount, Timestamp generatedAt) {
+    public FareReceipt(long rideId, double amount) {
         this.rideId = rideId;
         this.amount = amount;
-        this.generatedAt = generatedAt;
+        this.generatedAt = LocalDateTime.now();
     }
 
     public long getRideId() {
@@ -30,11 +29,11 @@ public class FareReceipt {
         this.amount = amount;
     }
 
-    public Timestamp getGeneratedAt() {
+    public LocalDateTime getGeneratedAt() {
         return generatedAt;
     }
 
-    public void setGeneratedAt(Timestamp generatedAt) {
+    public void setGeneratedAt(LocalDateTime generatedAt) {
         this.generatedAt = generatedAt;
     }
 }
