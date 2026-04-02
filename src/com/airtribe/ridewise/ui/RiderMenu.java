@@ -30,7 +30,21 @@ public class RiderMenu implements MenuHandler {
                 case 1:
                     System.out.print("Enter Rider Name: ");
                     String riderName = scanner.nextLine();
-                    Rider rider = new Rider(riderName, LocationEnum.ELECTRONIC_CITY); // currently hardcoded
+
+                    System.out.println("Choose Current Location:");
+                    for (LocationEnum location : LocationEnum.values()) {
+                        System.out.println(location.ordinal() + 1 + ". " + location);
+                    }
+
+                    System.out.print("Enter your choice: ");
+                    int locationChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (locationChoice < 1 || locationChoice > LocationEnum.values().length) {
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
+                    }
+                    Rider rider = new Rider(riderName, LocationEnum.values()[locationChoice - 1]);
                     riderService.addRider(rider);
                     System.out.println("Rider Created successfully.");
                     break;

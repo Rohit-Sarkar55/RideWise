@@ -47,7 +47,21 @@ public class DriverMenu implements MenuHandler {
                     }
 
                     VehicleType vehicleType = VehicleType.values()[vehicleChoice - 1];
-                    Driver driver = new Driver(driverName, LocationEnum.KORAMANGALA ,vehicleType);
+                    System.out.println("Choose Current Location:");
+                    for (LocationEnum location : LocationEnum.values()) {
+                        System.out.println(location.ordinal() + 1 + ". " + location);
+                    }
+
+                    System.out.print("Enter your choice: ");
+                    int locationChoice = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (locationChoice < 1 || locationChoice > LocationEnum.values().length) {
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
+                    }
+
+                    Driver driver = new Driver(driverName, LocationEnum.values()[locationChoice - 1],vehicleType);
                     driverService.addDriver(driver);
                     System.out.println("Driver added successfully.");
                     break;

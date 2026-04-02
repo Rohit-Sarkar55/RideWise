@@ -142,4 +142,20 @@ public class RideMatchingService {
         }
         return result;
     }
+
+    private void cancelRide(Ride ride){
+        ride.setCompleted(true);
+        ride.setStatus(RideStatus.CANCELLED);
+
+        // Update the driver's availability
+        Driver driver = ride.getDriver();
+        if (driver != null) {
+            driver.setAvailable(true);
+        }
+    }
+    public Ride cancelRideWithId(long rideId) throws RideNotFoundException{
+        Ride ride = getRideById(rideId);
+        cancelRide(ride);
+        return ride;
+    }
 }
