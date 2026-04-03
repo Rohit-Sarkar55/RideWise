@@ -3,9 +3,7 @@ package com.airtribe.ridewise.service;
 import com.airtribe.ridewise.enums.VehicleType;
 import com.airtribe.ridewise.exceptions.DriverNotFoundException;
 import com.airtribe.ridewise.exceptions.NoDriverAvailableException;
-import com.airtribe.ridewise.exceptions.RiderNotFoundException;
 import com.airtribe.ridewise.model.Driver;
-import com.airtribe.ridewise.model.Rider;
 
 import java.util.ArrayList;
 import java.util.List;

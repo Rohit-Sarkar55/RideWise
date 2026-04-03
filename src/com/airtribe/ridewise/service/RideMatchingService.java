@@ -2,7 +2,6 @@ package com.airtribe.ridewise.service;
 
 import com.airtribe.ridewise.enums.RideStatus;
 import com.airtribe.ridewise.enums.VehicleType;
-import com.airtribe.ridewise.exceptions.DriverNotFoundException;
 import com.airtribe.ridewise.exceptions.RideNotFoundException;
 import com.airtribe.ridewise.model.Driver;
 import com.airtribe.ridewise.model.FareReceipt;

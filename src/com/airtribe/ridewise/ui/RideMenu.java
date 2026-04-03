@@ -11,11 +11,8 @@ import com.airtribe.ridewise.exceptions.RideNotFoundException;
 import com.airtribe.ridewise.exceptions.RiderNotFoundException;
 import com.airtribe.ridewise.model.Ride;
 import com.airtribe.ridewise.model.Rider;
-import com.airtribe.ridewise.service.DriverService;
 import com.airtribe.ridewise.service.RideMatchingService;
 import com.airtribe.ridewise.service.RiderService;
-import com.airtribe.ridewise.strategy.FareCalculationStrategy;
-import com.airtribe.ridewise.strategy.RideMatchingStrategy;
 
 public class RideMenu implements MenuHandler {
     private RideMatchingService rideMatchingService;
