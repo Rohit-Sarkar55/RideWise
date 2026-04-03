@@ -66,5 +66,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 ## Contact
 For any inquiries or support, please contact:
-- **Email**: support@ridewise.com
-- **GitHub Issues**: Open an issue in the repository.
+- **Email**: sarkarrohit650@gmail.com
