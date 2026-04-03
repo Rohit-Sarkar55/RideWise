@@ -19,10 +19,7 @@ import com.airtribe.ridewise.strategy.RideMatchingStrategy;
 
 public class RideMenu implements MenuHandler {
     private RideMatchingService rideMatchingService;
-    private FareCalculationStrategy fareCalculationStrategy;
-    private RideMatchingStrategy rideMatchingStrategy;
     private RiderService riderService;
-    private  DriverService driverService;
 
     public RideMenu(RideMatchingService rideMatchingService,RiderService riderService) {
         this.rideMatchingService = rideMatchingService;

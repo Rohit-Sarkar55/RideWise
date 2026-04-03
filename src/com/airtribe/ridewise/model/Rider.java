@@ -1,16 +1,16 @@
 package com.airtribe.ridewise.model;
 
 import com.airtribe.ridewise.enums.LocationEnum;
+import com.airtribe.ridewise.util.IdGenerator;
 
 public class Rider {
 
-    private static long idGenerator=0;
     private long id;
     private String name;
     private LocationEnum currentLocation;
 
     public Rider(String name, LocationEnum currentLocation) {
-        this.id = ++idGenerator;
+        this.id = IdGenerator.getNextRiderId();
         this.name = name;
         this.currentLocation = currentLocation;
     }

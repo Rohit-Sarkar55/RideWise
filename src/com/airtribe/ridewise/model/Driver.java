@@ -2,10 +2,10 @@ package com.airtribe.ridewise.model;
 
 import com.airtribe.ridewise.enums.LocationEnum;
 import com.airtribe.ridewise.enums.VehicleType;
+import com.airtribe.ridewise.util.IdGenerator;
 
 public class Driver {
 
-    private static long idGenerator = 0;
 
     private long id;
     private String name;
@@ -16,11 +16,11 @@ public class Driver {
 
 
     public Driver() {
-        this.id = ++idGenerator;
+        this.id = IdGenerator.getNextDriverId();
     }
 
     public Driver(String name, LocationEnum currentLocation, VehicleType type) {
-        this.id = ++idGenerator;
+        this.id = IdGenerator.getNextDriverId();
         this.name = name;
         this.currentLocation = currentLocation;
         this.vehicleType = type;

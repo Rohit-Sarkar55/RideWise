@@ -4,9 +4,9 @@ import com.airtribe.ridewise.enums.LocationEnum;
 import com.airtribe.ridewise.enums.RideStatus;
 import com.airtribe.ridewise.enums.VehicleType;
 import com.airtribe.ridewise.util.CommonHelper;
+import com.airtribe.ridewise.util.IdGenerator;
 
 public class Ride {
-    private static long idGenerator = 0;
     private long id;
     private Rider rider;
     private Driver driver;
@@ -19,7 +19,7 @@ public class Ride {
     private FareReceipt fareReceipt;
 
     public Ride(Rider rider, LocationEnum destination) {
-        this.id = ++idGenerator;
+        this.id = IdGenerator.getNextRideId();
         this.rider = rider;
         this.source = rider.getCurrentLocation();
         this.destination = destination;
@@ -30,7 +30,7 @@ public class Ride {
 
     public Ride(Rider rider, LocationEnum destination,
                 VehicleType vehicleType) {
-        this.id = ++idGenerator;
+        this.id = IdGenerator.getNextRideId();
         this.rider = rider;
         this.source = rider.getCurrentLocation();
         this.destination = destination;

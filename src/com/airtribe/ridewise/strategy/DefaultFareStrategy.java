@@ -7,6 +7,7 @@ public class DefaultFareStrategy implements FareCalculationStrategy {
     
     @Override
     public double calculateFare( double distance, VehicleType vehicleType) {
-        return baseFare + CommonHelper.vehicleSpecificRate(distance, vehicleType);
+        double fare =  baseFare + CommonHelper.vehicleSpecificRate(distance, vehicleType);
+        return Math.round(fare*100.0)/100.0;
     }
 }

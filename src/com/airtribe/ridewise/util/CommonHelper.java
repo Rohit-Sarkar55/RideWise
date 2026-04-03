@@ -13,7 +13,8 @@ public class CommonHelper {
                 * Math.sin(lonDiff / 2) * Math.sin(lonDiff / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double earthRadius = 6371; // Radius of the Earth in kilometers
-        return earthRadius * c;
+        double distance = earthRadius * c;
+        return Math.round( distance * 100.0)/100.0;
     }
 
     public static double vehicleSpecificRate(double distance, VehicleType vehicleType){
