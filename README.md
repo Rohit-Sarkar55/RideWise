@@ -42,7 +42,7 @@ RideWise/
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Rohit-Sarkar55/RideWise.git
    ```
 2. Open the project in your preferred IDE.
 3. Build the project to resolve dependencies.
